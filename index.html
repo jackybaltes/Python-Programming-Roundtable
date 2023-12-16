@@ -1,0 +1,1573 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <title>Python Programming Roundtable</title>
+
+        <link rel="stylesheet" href="css/reveal.css">
+        <link rel="stylesheet" href="css/theme/ntnuerc.css">
+
+        <!-- Theme used for syntax highlighting of code -->
+        <link rel="stylesheet" href="lib/css/zenburn.css">
+        <script src="https://daybrush.com/scenejs/release/latest/dist/scene.min.js"></script>
+		
+        <!-- Printing and PDF exports -->
+        <script>
+            var link = document.createElement( 'link' );
+            link.rel = 'stylesheet';
+            link.type = 'text/css';
+            link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+            document.getElementsByTagName( 'head' )[0].appendChild( link );
+        </script>
+        <script src="js/ntnu.js"></script>
+    </head>
+    <body>
+        <div class="reveal">
+        <div class="slides">
+            
+<section id="first" data-state="first">
+
+
+<!-- Header -->
+  
+
+<!-- Background -->
+
+
+<!-- Slide -->
+<div class="jb-slide">
+
+<div class="jb-output-code jb-render">
+
+<!-- start embedded style -->
+
+<!-- end embedded style -->
+<div class="jb-output jb-render">
+
+<h1> Python Programming Roundtable</h1>
+
+   <div class="author" style="text-align:center;">
+    
+<p>
+      Jacky Baltes<br>
+      National Taiwan Normal University<br>
+      Taipei, Taiwan<br>
+      <a href="mailto:jacky.baltes@ntnu.edu.tw">jacky.baltes@ntnu.edu.tw</a><br>
+</p>
+
+   </div>
+   <div class="date">
+    16 December 2023
+   </div>
+
+</div><!-- end of jb-output jb-render -->
+</div><!-- end of jb-output-code jb-render -->
+
+
+</div>
+<!-- Footer -->
+
+<div class="jb-footer-left plain">
+    <span id="id-05f1ffc3-2c98-4e6a-be6e-011aa4c32942" ><span id="id-05f1ffc3-2c98-4e6a-be6e-011aa4c32942"><img id="img-id-05f1ffc3-2c98-4e6a-be6e-011aa4c32942"     src="assets/images/logo.png"/></span>
+</span>
+
+</div>
+<div class="jb-footer-right plain">
+    <span id="id-c566786a-3d4a-4110-a1ef-f50a236ab126" ><span id="id-c566786a-3d4a-4110-a1ef-f50a236ab126"><img id="img-id-c566786a-3d4a-4110-a1ef-f50a236ab126" width="162" height="138"   src="assets/images/robbi.png"/></span>
+</span>
+
+</div>
+
+<aside class="notes">
+
+</aside>
+
+
+
+</section>
+<section id="slide_00003_frag_00001" data-state="slide_00003_frag_00001">
+
+
+<!-- Header -->
+  
+
+<!-- Background -->
+
+
+<!-- Slide -->
+<div class="jb-slide">
+<div class="jb-input jb-render jb-code" style="text-align:center">
+
+<!-- start embedded style -->
+
+<!-- end embedded style -->
+<div class="jb-input-code jb-render">
+<div class="highlight" style="background: #f8f8f8; color:#101010;display=inline-block;"><pre style="line-height: 125%;"><span></span><span style="color: #008000">print</span>(<span style="color: #BA2121">&quot;Run Length Encoding - 2023&quot;</span>)
+
+<span style="color: #3D7B7B; font-style: italic"># Problem definition</span>
+<span style="color: #3D7B7B; font-style: italic"># Input looks as follows:</span>
+T1 <span style="color: #666666">=</span> [<span style="color: #666666">2</span>, <span style="color: #666666">2</span>, <span style="color: #666666">2</span>, <span style="color: #666666">1</span>, <span style="color: #666666">1</span>, <span style="color: #666666">1</span>, <span style="color: #666666">1</span>, <span style="color: #666666">1</span>, <span style="color: #666666">2</span>, <span style="color: #666666">2</span>, <span style="color: #666666">2</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">2</span>, <span style="color: #666666">2</span>]
+T2 <span style="color: #666666">=</span> [<span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>]
+T3 <span style="color: #666666">=</span> [<span style="color: #666666">2</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">3</span>, <span style="color: #666666">3</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">2</span>, <span style="color: #666666">2</span>, <span style="color: #666666">2</span>, <span style="color: #666666">2</span>]
+
+<span style="color: #3D7B7B; font-style: italic"># compress these types of messages</span>
+<span style="color: #3D7B7B; font-style: italic"># We want to use run length encoding to compress the messages</span>
+<span style="color: #3D7B7B; font-style: italic"># Output should be:</span>
+<span style="color: #3D7B7B; font-style: italic"># T1: [ [ 3, 2 ], [ 5, 1 ], [3, 2], [2,0], [2,2] ]</span>
+<span style="color: #3D7B7B; font-style: italic"># T2: [ 13, 0 ] ]</span>
+<span style="color: #3D7B7B; font-style: italic"># T3: [[1,2], [3,0], [2,3], [3,0], [4,2] ]</span>
+
+
+<span style="color: #3D7B7B; font-style: italic"># Program:</span>
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">run_length_encoding</span>(message):
+  result <span style="color: #666666">=</span> []
+  count <span style="color: #666666">=</span> <span style="color: #666666">1</span>
+  <span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">len</span>(message) <span style="color: #666666">&gt;</span> <span style="color: #666666">0</span>:
+      
+    <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(<span style="color: #666666">1</span>,<span style="color: #008000">len</span>(message)):
+      <span style="color: #008000; font-weight: bold">if</span> message[i] <span style="color: #666666">==</span> message[i <span style="color: #666666">-</span> <span style="color: #666666">1</span>]:
+        count <span style="color: #666666">+=</span> <span style="color: #666666">1</span>
+      <span style="color: #008000; font-weight: bold">else</span>:
+        result<span style="color: #666666">.</span>append([count, message[i <span style="color: #666666">-</span> <span style="color: #666666">1</span>]])
+        count <span style="color: #666666">=</span> <span style="color: #666666">1</span>
+    result<span style="color: #666666">.</span>append([count, message[<span style="color: #666666">-1</span>]])
+  <span style="color: #008000; font-weight: bold">return</span> result
+
+
+<span style="color: #008000; font-weight: bold">if</span> (run_length_encoding(T1) <span style="color: #666666">==</span> [[<span style="color: #666666">3</span>, <span style="color: #666666">2</span>], [<span style="color: #666666">5</span>, <span style="color: #666666">1</span>], [<span style="color: #666666">3</span>, <span style="color: #666666">2</span>], [<span style="color: #666666">2</span>, <span style="color: #666666">0</span>], [<span style="color: #666666">2</span>, <span style="color: #666666">2</span>]]):
+  <span style="color: #008000">print</span>(<span style="color: #BA2121">&quot;Test 1 passed&quot;</span>)
+<span style="color: #008000; font-weight: bold">if</span>(run_length_encoding(T2) <span style="color: #666666">==</span>[[<span style="color: #666666">13</span>,<span style="color: #666666">0</span>]]):
+  <span style="color: #008000">print</span>(<span style="color: #BA2121">&quot;Test 2 passed&quot;</span>)
+<span style="color: #008000; font-weight: bold">if</span> run_length_encoding(T3) <span style="color: #666666">==</span>[[<span style="color: #666666">1</span>,<span style="color: #666666">2</span>], [<span style="color: #666666">3</span>,<span style="color: #666666">0</span>], [<span style="color: #666666">2</span>,<span style="color: #666666">3</span>], [<span style="color: #666666">3</span>,<span style="color: #666666">0</span>],[<span style="color: #666666">4</span>,<span style="color: #666666">2</span>]] :
+  <span style="color: #008000">print</span>(<span style="color: #BA2121">&quot;Test 3 passed&quot;</span>)
+<span style="color: #008000; font-weight: bold">if</span> run_length_encoding([]) <span style="color: #666666">==</span> []:
+  <span style="color: #008000">print</span>(<span style="color: #BA2121">&quot;Test 4 passed&quot;</span> )
+<span style="color: #008000; font-weight: bold">if</span> run_length_encoding([<span style="color: #666666">1</span>]) <span style="color: #666666">==</span> [[<span style="color: #666666">1</span>,<span style="color: #666666">1</span>]]:
+  <span style="color: #008000">print</span>(<span style="color: #BA2121">&quot;Test 5 passed&quot;</span>)
+</pre></div>
+
+</div><!-- end of jb-input-code jb-render -->
+
+</div>
+<div class="jb-print jb-render">
+<div class="jb-output jb-render code" style="text-align:center">
+<div class="jb-stdout code" style="display:inline-block; width:90%">
+<pre >
+Run Length Encoding - 2023
+Test 1 passed
+Test 2 passed
+Test 3 passed
+Test 4 passed
+Test 5 passed
+</pre>
+</div>
+</div>
+
+</div><!-- end of jb-print jb-render -->
+
+</div>
+<!-- Footer -->
+
+<div class="jb-footer-left plain">
+    <span id="id-3763e5e6-76d1-41f2-91a7-703a3cc4f6b9" ><span id="id-3763e5e6-76d1-41f2-91a7-703a3cc4f6b9"><img id="img-id-3763e5e6-76d1-41f2-91a7-703a3cc4f6b9"     src="assets/images/logo.png"/></span>
+</span>
+
+</div>
+<div class="jb-footer-right plain">
+    <span id="id-bbc06b95-6288-489f-8b06-50b21df02813" ><span id="id-bbc06b95-6288-489f-8b06-50b21df02813"><img id="img-id-bbc06b95-6288-489f-8b06-50b21df02813" width="162" height="138"   src="assets/images/robbi.png"/></span>
+</span>
+
+</div>
+
+<aside class="notes">
+
+</aside>
+
+
+
+</section>
+<section id="slide_00004_frag_00001" data-state="slide_00004_frag_00001">
+
+
+<!-- Header -->
+  
+
+<!-- Background -->
+
+
+<!-- Slide -->
+<div class="jb-slide">
+<div class="jb-input jb-render jb-code" style="text-align:center">
+
+<!-- start embedded style -->
+
+<!-- end embedded style -->
+<div class="jb-input-code jb-render">
+<div style="font-size:0.5em"><!-- start of style="font-size:0.5em" -->
+<div class="highlight" style="background: #f8f8f8; color:#101010;display=inline-block;"><pre style="line-height: 125%;"><span></span><span style="color: #008000">print</span>(<span style="color: #BA2121">&quot;Run Length Encoding - 2023&quot;</span>)
+
+<span style="color: #3D7B7B; font-style: italic"># Problem definition</span>
+<span style="color: #3D7B7B; font-style: italic"># Input looks as follows:</span>
+T1 <span style="color: #666666">=</span> [<span style="color: #666666">2</span>, <span style="color: #666666">2</span>, <span style="color: #666666">2</span>, <span style="color: #666666">1</span>, <span style="color: #666666">1</span>, <span style="color: #666666">1</span>, <span style="color: #666666">1</span>, <span style="color: #666666">1</span>, <span style="color: #666666">2</span>, <span style="color: #666666">2</span>, <span style="color: #666666">2</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">2</span>, <span style="color: #666666">2</span>]
+T2 <span style="color: #666666">=</span> [<span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>]
+T3 <span style="color: #666666">=</span> [<span style="color: #666666">2</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">3</span>, <span style="color: #666666">3</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>, <span style="color: #666666">2</span>, <span style="color: #666666">2</span>, <span style="color: #666666">2</span>, <span style="color: #666666">2</span>]
+
+<span style="color: #3D7B7B; font-style: italic"># compress these types of messages</span>
+<span style="color: #3D7B7B; font-style: italic"># We want to use run length encoding to compress the messages</span>
+<span style="color: #3D7B7B; font-style: italic"># Output should be:</span>
+<span style="color: #3D7B7B; font-style: italic"># T1: [ [ 3, 2 ], [ 5, 1 ], [3, 2], [2,0], [2,2] ]</span>
+<span style="color: #3D7B7B; font-style: italic"># T2: [ 13, 0 ] ]</span>
+<span style="color: #3D7B7B; font-style: italic"># T3: [[1,2], [3,0], [2,3], [3,0], [4,2] ]</span>
+
+
+<span style="color: #3D7B7B; font-style: italic"># Program:</span>
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">run_length_encoding</span>(message):
+  result <span style="color: #666666">=</span> []
+  count <span style="color: #666666">=</span> <span style="color: #666666">1</span>
+  <span style="color: #008000; font-weight: bold">if</span> <span style="color: #008000">len</span>(message) <span style="color: #666666">&gt;</span> <span style="color: #666666">0</span>:
+      
+    <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(<span style="color: #666666">1</span>,<span style="color: #008000">len</span>(message)):
+      <span style="color: #008000; font-weight: bold">if</span> message[i] <span style="color: #666666">==</span> message[i <span style="color: #666666">-</span> <span style="color: #666666">1</span>]:
+        count <span style="color: #666666">+=</span> <span style="color: #666666">1</span>
+      <span style="color: #008000; font-weight: bold">else</span>:
+        result<span style="color: #666666">.</span>append([count, message[i <span style="color: #666666">-</span> <span style="color: #666666">1</span>]])
+        count <span style="color: #666666">=</span> <span style="color: #666666">1</span>
+    result<span style="color: #666666">.</span>append([count, message[<span style="color: #666666">-1</span>]])
+  <span style="color: #008000; font-weight: bold">return</span> result
+
+
+<span style="color: #008000; font-weight: bold">if</span> (run_length_encoding(T1) <span style="color: #666666">==</span> [[<span style="color: #666666">3</span>, <span style="color: #666666">2</span>], [<span style="color: #666666">5</span>, <span style="color: #666666">1</span>], [<span style="color: #666666">3</span>, <span style="color: #666666">2</span>], [<span style="color: #666666">2</span>, <span style="color: #666666">0</span>], [<span style="color: #666666">2</span>, <span style="color: #666666">2</span>]]):
+  <span style="color: #008000">print</span>(<span style="color: #BA2121">&quot;Test 1 passed&quot;</span>)
+<span style="color: #008000; font-weight: bold">if</span>(run_length_encoding(T2) <span style="color: #666666">==</span>[[<span style="color: #666666">13</span>,<span style="color: #666666">0</span>]]):
+  <span style="color: #008000">print</span>(<span style="color: #BA2121">&quot;Test 2 passed&quot;</span>)
+<span style="color: #008000; font-weight: bold">if</span> run_length_encoding(T3) <span style="color: #666666">==</span>[[<span style="color: #666666">1</span>,<span style="color: #666666">2</span>], [<span style="color: #666666">3</span>,<span style="color: #666666">0</span>], [<span style="color: #666666">2</span>,<span style="color: #666666">3</span>], [<span style="color: #666666">3</span>,<span style="color: #666666">0</span>],[<span style="color: #666666">4</span>,<span style="color: #666666">2</span>]] :
+  <span style="color: #008000">print</span>(<span style="color: #BA2121">&quot;Test 3 passed&quot;</span>)
+<span style="color: #008000; font-weight: bold">if</span> run_length_encoding([]) <span style="color: #666666">==</span> []:
+  <span style="color: #008000">print</span>(<span style="color: #BA2121">&quot;Test 4 passed&quot;</span> )
+<span style="color: #008000; font-weight: bold">if</span> run_length_encoding([<span style="color: #666666">1</span>]) <span style="color: #666666">==</span> [[<span style="color: #666666">1</span>,<span style="color: #666666">1</span>]]:
+  <span style="color: #008000">print</span>(<span style="color: #BA2121">&quot;Test 5 passed&quot;</span>)
+</pre></div>
+
+</div><!-- end of style="font-size:0.5em" -->
+</div><!-- end of jb-input-code jb-render -->
+
+</div>
+<div class="jb-print jb-render">
+<div style="font-size:0.5em"><!-- start of style="font-size:0.5em" -->
+<div class="jb-output jb-render code" style="text-align:center">
+<div class="jb-stdout code" style="display:inline-block; width:90%">
+<pre style="font-size:0.5em">
+Run Length Encoding - 2023
+Test 1 passed
+Test 2 passed
+Test 3 passed
+Test 4 passed
+Test 5 passed
+</pre>
+</div>
+</div>
+
+</div><!-- end of style="font-size:0.5em" -->
+</div><!-- end of jb-print jb-render -->
+
+</div>
+<!-- Footer -->
+
+<div class="jb-footer-left plain">
+    <span id="id-3692b7e2-05f6-4e68-bd57-15419919f78e" ><span id="id-3692b7e2-05f6-4e68-bd57-15419919f78e"><img id="img-id-3692b7e2-05f6-4e68-bd57-15419919f78e"     src="assets/images/logo.png"/></span>
+</span>
+
+</div>
+<div class="jb-footer-right plain">
+    <span id="id-1e4cf3a2-6ae0-44e9-83e5-333c8f5a72c4" ><span id="id-1e4cf3a2-6ae0-44e9-83e5-333c8f5a72c4"><img id="img-id-1e4cf3a2-6ae0-44e9-83e5-333c8f5a72c4" width="162" height="138"   src="assets/images/robbi.png"/></span>
+</span>
+
+</div>
+
+<aside class="notes">
+
+</aside>
+
+
+
+</section>
+<section id="slide_00005_frag_00001" data-state="slide_00005_frag_00001">
+
+
+<!-- Header -->
+  
+
+<!-- Background -->
+
+
+<!-- Slide -->
+<div class="jb-slide">
+
+<div class="jb-output-code jb-render">
+
+<!-- start embedded style -->
+
+<!-- end embedded style -->
+<div class="jb-output jb-render">
+
+<h1>Run Length Encoding</h1>
+
+<div class="jb-text">
+<p>Run Length Encoding (RLE) replaces each symbol in the message with a count and the symbol</p>
+<p>So that may allows us to compress a message</p>
+<p>Efficiency depends on the probability that we have long runs of symbols</p>
+
+</div>
+
+</div><!-- end of jb-output jb-render -->
+</div><!-- end of jb-output-code jb-render -->
+
+
+</div>
+<!-- Footer -->
+
+<div class="jb-footer-left plain">
+    <span id="id-07d56860-6b8e-4db3-bfc9-fc8cb3d34eec" ><span id="id-07d56860-6b8e-4db3-bfc9-fc8cb3d34eec"><img id="img-id-07d56860-6b8e-4db3-bfc9-fc8cb3d34eec"     src="assets/images/logo.png"/></span>
+</span>
+
+</div>
+<div class="jb-footer-right plain">
+    <span id="id-72802477-eb60-45e3-8983-a8b1e7fd9327" ><span id="id-72802477-eb60-45e3-8983-a8b1e7fd9327"><img id="img-id-72802477-eb60-45e3-8983-a8b1e7fd9327" width="162" height="138"   src="assets/images/robbi.png"/></span>
+</span>
+
+</div>
+
+<aside class="notes">
+
+</aside>
+
+
+
+</section>
+<section id="slide_00006_frag_00001" data-state="slide_00006_frag_00001">
+
+
+<!-- Header -->
+  
+
+<!-- Background -->
+
+
+<!-- Slide -->
+<div class="jb-slide">
+
+<div class="jb-output-code jb-render">
+
+<!-- start embedded style -->
+
+<!-- end embedded style -->
+<div class="jb-output jb-render">
+
+<h1>Run Length Encoding</h1>
+
+<div class="jb-text">
+<p>Good Example: [0,0,0,0,0,0,0,0] -> [[7,0]]</p>
+<p>Bad Example: [0,1,2,3,4,5] -> [[1,0], [1,1], [1,2], [1,3], [1,4], [1,5]]</p>
+<p>Lets each number is counted as a transmission unit (1U)</p>
+<p>Good Example: 7U -> 2U: 2/7</p>
+<p>Bad Example: 6U -> 12U: 12/6 = 2 (Worst Cade for RLE)</p>
+
+</div>
+
+</div><!-- end of jb-output jb-render -->
+</div><!-- end of jb-output-code jb-render -->
+
+
+</div>
+<!-- Footer -->
+
+<div class="jb-footer-left plain">
+    <span id="id-3867da99-c512-4844-a10d-5acef205453a" ><span id="id-3867da99-c512-4844-a10d-5acef205453a"><img id="img-id-3867da99-c512-4844-a10d-5acef205453a"     src="assets/images/logo.png"/></span>
+</span>
+
+</div>
+<div class="jb-footer-right plain">
+    <span id="id-63233e9b-82e9-4b6c-ad28-e7cfa62410ab" ><span id="id-63233e9b-82e9-4b6c-ad28-e7cfa62410ab"><img id="img-id-63233e9b-82e9-4b6c-ad28-e7cfa62410ab" width="162" height="138"   src="assets/images/robbi.png"/></span>
+</span>
+
+</div>
+
+<aside class="notes">
+
+</aside>
+
+
+
+</section>
+<section id="slide_00007_frag_00001" data-state="slide_00007_frag_00001">
+
+
+<!-- Header -->
+  
+
+<!-- Background -->
+
+
+<!-- Slide -->
+<div class="jb-slide">
+
+<div class="jb-output-code jb-render">
+
+<!-- start embedded style -->
+
+<!-- end embedded style -->
+<div class="jb-output jb-render">
+<div class="document">
+<p>&lt;h1&gt;Investigation of Efficiency&lt;/h1&gt;</p>
+<p>&lt;div class=&quot;jb-text&quot;&gt;
+&lt;p&gt;Assume that messages are generated by with a probability &lt;emph&gt;p&lt;/emph&gt; we repeat the previous symbol, (&lt;emph&gt;1-p&lt;/emph&gt; we change to a different symbol)&lt;/p&gt;
+&lt;/div&gt;</p>
+</div>
+
+</div><!-- end of jb-output jb-render -->
+</div><!-- end of jb-output-code jb-render -->
+
+
+</div>
+<!-- Footer -->
+
+<div class="jb-footer-left plain">
+    <span id="id-0ceffad8-0d5c-47bf-9d54-5e39442c9081" ><span id="id-0ceffad8-0d5c-47bf-9d54-5e39442c9081"><img id="img-id-0ceffad8-0d5c-47bf-9d54-5e39442c9081"     src="assets/images/logo.png"/></span>
+</span>
+
+</div>
+<div class="jb-footer-right plain">
+    <span id="id-97f7140e-ba34-40aa-9835-91ff43363d79" ><span id="id-97f7140e-ba34-40aa-9835-91ff43363d79"><img id="img-id-97f7140e-ba34-40aa-9835-91ff43363d79" width="162" height="138"   src="assets/images/robbi.png"/></span>
+</span>
+
+</div>
+
+<aside class="notes">
+
+</aside>
+
+
+
+</section>
+<section id="slide_00008_frag_00001" data-state="slide_00008_frag_00001">
+
+
+<!-- Header -->
+  
+
+<!-- Background -->
+
+
+<!-- Slide -->
+<div class="jb-slide">
+
+<div class="jb-output-code jb-render">
+
+<!-- start embedded style -->
+
+<!-- end embedded style -->
+<div class="jb-output jb-render">
+
+<h1>Investigation of Efficiency</h1>
+
+<div class="jb-text">
+<p>Assume that messages are generated by with a probability <emph>p</emph> we repeat the previous symbol, (<emph>1-p</emph> we change to a different symbol)</p>
+</div>
+
+</div><!-- end of jb-output jb-render -->
+</div><!-- end of jb-output-code jb-render -->
+
+
+</div>
+<!-- Footer -->
+
+<div class="jb-footer-left plain">
+    <span id="id-a7edc655-5524-416f-a9fb-deacce789a24" ><span id="id-a7edc655-5524-416f-a9fb-deacce789a24"><img id="img-id-a7edc655-5524-416f-a9fb-deacce789a24"     src="assets/images/logo.png"/></span>
+</span>
+
+</div>
+<div class="jb-footer-right plain">
+    <span id="id-6a9d81ab-19b7-4a0f-a849-e6e8b05da6a0" ><span id="id-6a9d81ab-19b7-4a0f-a849-e6e8b05da6a0"><img id="img-id-6a9d81ab-19b7-4a0f-a849-e6e8b05da6a0" width="162" height="138"   src="assets/images/robbi.png"/></span>
+</span>
+
+</div>
+
+<aside class="notes">
+
+</aside>
+
+
+
+</section>
+<section id="slide_00009_frag_00001" data-state="slide_00009_frag_00001">
+
+
+<!-- Header -->
+  
+
+<!-- Background -->
+
+
+<!-- Slide -->
+<div class="jb-slide">
+
+<div class="jb-output-code jb-render">
+
+<!-- start embedded style -->
+
+<!-- end embedded style -->
+<div class="jb-output jb-render">
+
+<h1>Investigation of Efficiency</h1>
+
+<div class="jb-text">
+<p>Assume that messages are generated by a process that with a probability <emph>p</emph> we repeat the previous symbol, (<emph>1-p</emph> we change to a different symbol)</p>
+</div>
+
+</div><!-- end of jb-output jb-render -->
+</div><!-- end of jb-output-code jb-render -->
+
+
+</div>
+<!-- Footer -->
+
+<div class="jb-footer-left plain">
+    <span id="id-d815b23e-fdbe-4a03-b59f-3b9344731bad" ><span id="id-d815b23e-fdbe-4a03-b59f-3b9344731bad"><img id="img-id-d815b23e-fdbe-4a03-b59f-3b9344731bad"     src="assets/images/logo.png"/></span>
+</span>
+
+</div>
+<div class="jb-footer-right plain">
+    <span id="id-e90f7f76-ff39-4e86-815d-f8f149595719" ><span id="id-e90f7f76-ff39-4e86-815d-f8f149595719"><img id="img-id-e90f7f76-ff39-4e86-815d-f8f149595719" width="162" height="138"   src="assets/images/robbi.png"/></span>
+</span>
+
+</div>
+
+<aside class="notes">
+
+</aside>
+
+
+
+</section>
+<section id="slide_00010_frag_00001" data-state="slide_00010_frag_00001">
+
+
+<!-- Header -->
+  
+
+<!-- Background -->
+
+
+<!-- Slide -->
+<div class="jb-slide">
+
+<div class="jb-output-code jb-render">
+
+<!-- start embedded style -->
+
+<!-- end embedded style -->
+<div class="jb-output jb-render">
+
+<h1>Investigation of Efficiency</h1>
+
+<div class="jb-text">
+<p>Assume that messages are generated by a process that with a probability <emph>p</emph> we repeat the previous symbol, (<emph>1-p</emph> we change to a different symbol)</p>
+<p>Show relationship between p (0..1) and compression ratio of RLE</p>
+</div>
+
+</div><!-- end of jb-output jb-render -->
+</div><!-- end of jb-output-code jb-render -->
+
+
+</div>
+<!-- Footer -->
+
+<div class="jb-footer-left plain">
+    <span id="id-cc0c6ff1-1239-48da-9378-16176ea5291b" ><span id="id-cc0c6ff1-1239-48da-9378-16176ea5291b"><img id="img-id-cc0c6ff1-1239-48da-9378-16176ea5291b"     src="assets/images/logo.png"/></span>
+</span>
+
+</div>
+<div class="jb-footer-right plain">
+    <span id="id-493ecf3e-35eb-498f-95e2-35a7a11ce7e1" ><span id="id-493ecf3e-35eb-498f-95e2-35a7a11ce7e1"><img id="img-id-493ecf3e-35eb-498f-95e2-35a7a11ce7e1" width="162" height="138"   src="assets/images/robbi.png"/></span>
+</span>
+
+</div>
+
+<aside class="notes">
+
+</aside>
+
+
+
+</section>
+<section id="slide_00011_frag_00001" data-state="slide_00011_frag_00001">
+
+
+<!-- Header -->
+  
+
+<!-- Background -->
+
+
+<!-- Slide -->
+<div class="jb-slide">
+<div class="jb-input jb-render jb-code" style="text-align:center">
+
+<!-- start embedded style -->
+
+<!-- end embedded style -->
+<div class="jb-input-code jb-render">
+<div class="highlight" style="background: #f8f8f8; color:#101010;display=inline-block;"><pre style="line-height: 125%;"><span></span><span style="color: #008000; font-weight: bold">import</span> <span style="color: #0000FF; font-weight: bold">random</span>
+
+<span style="color: #008000; font-weight: bold">def</span> <span style="color: #0000FF">generate_message</span>(p <span style="color: #666666">=</span> <span style="color: #666666">0</span>, max_length <span style="color: #666666">=</span> <span style="color: #666666">10</span>):
+  msg <span style="color: #666666">=</span> [<span style="color: #666666">0</span>]
+  <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(<span style="color: #666666">1</span>, max_length):
+    <span style="color: #008000; font-weight: bold">if</span> ( random<span style="color: #666666">.</span>random() <span style="color: #666666">&lt;</span> p ):
+      msg<span style="color: #666666">.</span>append( msg[<span style="color: #666666">-1</span>] )
+    <span style="color: #008000; font-weight: bold">else</span>:
+      msg<span style="color: #666666">.</span>append( <span style="color: #666666">1</span> <span style="color: #666666">-</span> msg[<span style="color: #666666">-1</span>] )
+  <span style="color: #008000; font-weight: bold">return</span> msg
+
+<span style="color: #008000">print</span>(<span style="color: #BA2121">f&quot;Message:</span><span style="color: #A45A77; font-weight: bold">{</span>generate_message(<span style="color: #666666">0</span>,<span style="color: #666666">5</span>)<span style="color: #A45A77; font-weight: bold">}</span><span style="color: #BA2121">&quot;</span>)
+<span style="color: #008000">print</span>(<span style="color: #BA2121">f&quot;Message:</span><span style="color: #A45A77; font-weight: bold">{</span>generate_message(<span style="color: #666666">0.5</span>,<span style="color: #666666">5</span>)<span style="color: #A45A77; font-weight: bold">}</span><span style="color: #BA2121">&quot;</span>)
+<span style="color: #008000">print</span>(<span style="color: #BA2121">f&quot;Message:</span><span style="color: #A45A77; font-weight: bold">{</span>generate_message(<span style="color: #666666">1.0</span>,<span style="color: #666666">5</span>)<span style="color: #A45A77; font-weight: bold">}</span><span style="color: #BA2121">&quot;</span>)
+</pre></div>
+
+</div><!-- end of jb-input-code jb-render -->
+
+</div>
+<div class="jb-print jb-render">
+<div class="jb-output jb-render code" style="text-align:center">
+<div class="jb-stdout code" style="display:inline-block; width:90%">
+<pre >
+Message:[0, 1, 0, 1, 0]
+Message:[0, 0, 0, 1, 0]
+Message:[0, 0, 0, 0, 0]
+</pre>
+</div>
+</div>
+
+</div><!-- end of jb-print jb-render -->
+
+</div>
+<!-- Footer -->
+
+<div class="jb-footer-left plain">
+    <span id="id-65631419-90d9-4025-97df-ade42b9ff919" ><span id="id-65631419-90d9-4025-97df-ade42b9ff919"><img id="img-id-65631419-90d9-4025-97df-ade42b9ff919"     src="assets/images/logo.png"/></span>
+</span>
+
+</div>
+<div class="jb-footer-right plain">
+    <span id="id-e963eee9-c9b8-4850-bf96-cb3647903495" ><span id="id-e963eee9-c9b8-4850-bf96-cb3647903495"><img id="img-id-e963eee9-c9b8-4850-bf96-cb3647903495" width="162" height="138"   src="assets/images/robbi.png"/></span>
+</span>
+
+</div>
+
+<aside class="notes">
+
+</aside>
+
+
+
+</section>
+<section id="slide_00012_frag_00001" data-state="slide_00012_frag_00001">
+
+
+<!-- Header -->
+  
+
+<!-- Background -->
+
+
+<!-- Slide -->
+<div class="jb-slide">
+
+<div class="jb-output-code jb-render">
+
+<!-- start embedded style -->
+
+<!-- end embedded style -->
+<div class="jb-output jb-render">
+<div class="document">
+<p># Efficiency of Run Length Encoding</p>
+<div class="jb-text docutils container">
+Implement a function to draw a figure showing the relationship between p (0, 0.1, 0.2, ... 1.0) and
+efficiency of RLE</div>
+</div>
+
+</div><!-- end of jb-output jb-render -->
+</div><!-- end of jb-output-code jb-render -->
+
+
+</div>
+<!-- Footer -->
+
+<div class="jb-footer-left plain">
+    <span id="id-50e28f96-11c5-4a3a-84b4-8c6790b9b355" ><span id="id-50e28f96-11c5-4a3a-84b4-8c6790b9b355"><img id="img-id-50e28f96-11c5-4a3a-84b4-8c6790b9b355"     src="assets/images/logo.png"/></span>
+</span>
+
+</div>
+<div class="jb-footer-right plain">
+    <span id="id-b71d73b4-869c-4546-9d90-d617c4254ac7" ><span id="id-b71d73b4-869c-4546-9d90-d617c4254ac7"><img id="img-id-b71d73b4-869c-4546-9d90-d617c4254ac7" width="162" height="138"   src="assets/images/robbi.png"/></span>
+</span>
+
+</div>
+
+<aside class="notes">
+
+</aside>
+
+
+
+</section>
+<section id="slide_00013_frag_00001" data-state="slide_00013_frag_00001">
+
+
+<!-- Header -->
+  
+
+<!-- Background -->
+
+
+<!-- Slide -->
+<div class="jb-slide">
+
+<div class="jb-output-code jb-render">
+
+<!-- start embedded style -->
+
+<!-- end embedded style -->
+<div class="jb-output jb-render">
+<div class="document">
+<p>## Efficiency of Run Length Encoding</p>
+<div class="jb-text docutils container">
+Implement a function to draw a figure showing the relationship between p (0, 0.1, 0.2, ... 1.0) and
+efficiency of RLE</div>
+</div>
+
+</div><!-- end of jb-output jb-render -->
+</div><!-- end of jb-output-code jb-render -->
+
+
+</div>
+<!-- Footer -->
+
+<div class="jb-footer-left plain">
+    <span id="id-8307ca14-49bd-4ab2-ba2d-d983053728d2" ><span id="id-8307ca14-49bd-4ab2-ba2d-d983053728d2"><img id="img-id-8307ca14-49bd-4ab2-ba2d-d983053728d2"     src="assets/images/logo.png"/></span>
+</span>
+
+</div>
+<div class="jb-footer-right plain">
+    <span id="id-2dd5e52a-837a-49a6-bcb2-2f6f9f18ac17" ><span id="id-2dd5e52a-837a-49a6-bcb2-2f6f9f18ac17"><img id="img-id-2dd5e52a-837a-49a6-bcb2-2f6f9f18ac17" width="162" height="138"   src="assets/images/robbi.png"/></span>
+</span>
+
+</div>
+
+<aside class="notes">
+
+</aside>
+
+
+
+</section>
+<section id="slide_00014_frag_00001" data-state="slide_00014_frag_00001">
+
+
+<!-- Header -->
+  
+
+<!-- Background -->
+
+
+<!-- Slide -->
+<div class="jb-slide">
+
+<div class="jb-output-code jb-render">
+
+<!-- start embedded style -->
+
+<!-- end embedded style -->
+<div class="jb-output jb-render">
+<div class="document" id="efficiency-of-run-length-encoding">
+<h1 class="title">Efficiency of Run Length Encoding</h1>
+<div class="jb-text docutils container">
+Implement a function to draw a figure showing the relationship between p (0, 0.1, 0.2, ... 1.0) and
+efficiency of RLE</div>
+</div>
+
+</div><!-- end of jb-output jb-render -->
+</div><!-- end of jb-output-code jb-render -->
+
+
+</div>
+<!-- Footer -->
+
+<div class="jb-footer-left plain">
+    <span id="id-ce1c3fdd-6fdf-4cb8-8a01-95349f044670" ><span id="id-ce1c3fdd-6fdf-4cb8-8a01-95349f044670"><img id="img-id-ce1c3fdd-6fdf-4cb8-8a01-95349f044670"     src="assets/images/logo.png"/></span>
+</span>
+
+</div>
+<div class="jb-footer-right plain">
+    <span id="id-35100dc0-9046-4371-a5fe-092078adb4ae" ><span id="id-35100dc0-9046-4371-a5fe-092078adb4ae"><img id="img-id-35100dc0-9046-4371-a5fe-092078adb4ae" width="162" height="138"   src="assets/images/robbi.png"/></span>
+</span>
+
+</div>
+
+<aside class="notes">
+
+</aside>
+
+
+
+</section>
+<section id="slide_00015_frag_00001" data-state="slide_00015_frag_00001">
+
+
+<!-- Header -->
+  
+
+<!-- Background -->
+
+
+<!-- Slide -->
+<div class="jb-slide">
+<div class="jb-input jb-render jb-code" style="text-align:center">
+
+<!-- start embedded style -->
+
+<!-- end embedded style -->
+<div class="jb-input-code jb-render">
+<div class="highlight" style="background: #f8f8f8; color:#101010;display=inline-block;"><pre style="line-height: 125%;"><span></span>N_trials <span style="color: #666666">=</span> <span style="color: #666666">100</span>
+xs <span style="color: #666666">=</span> np<span style="color: #666666">.</span>linspace(<span style="color: #666666">0.0</span>, <span style="color: #666666">1.0</span>, <span style="color: #666666">20</span> )
+ys <span style="color: #666666">=</span> []
+
+<span style="color: #008000; font-weight: bold">for</span> p <span style="color: #AA22FF; font-weight: bold">in</span> xs:
+    mean <span style="color: #666666">=</span> <span style="color: #666666">0</span>
+    <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(N_trials):
+        m <span style="color: #666666">=</span> generate_message( p, <span style="color: #666666">1000</span> )
+        rle <span style="color: #666666">=</span> run_length_encoding( m )
+        eff <span style="color: #666666">=</span> <span style="color: #666666">2</span> <span style="color: #666666">*</span> <span style="color: #008000">len</span>(rle) <span style="color: #666666">/</span> <span style="color: #008000">len</span>(m)
+        mean <span style="color: #666666">=</span> mean <span style="color: #666666">+</span> eff<span style="color: #666666">/</span>N_trials
+    ys<span style="color: #666666">.</span>append( mean )
+</pre></div>
+
+</div><!-- end of jb-input-code jb-render -->
+
+</div>
+
+</div>
+<!-- Footer -->
+
+<div class="jb-footer-left plain">
+    <span id="id-f7da9322-0dce-4032-9f5a-ff51d515b574" ><span id="id-f7da9322-0dce-4032-9f5a-ff51d515b574"><img id="img-id-f7da9322-0dce-4032-9f5a-ff51d515b574"     src="assets/images/logo.png"/></span>
+</span>
+
+</div>
+<div class="jb-footer-right plain">
+    <span id="id-d0c6f4fc-b718-461d-a3af-4de0c46a3b62" ><span id="id-d0c6f4fc-b718-461d-a3af-4de0c46a3b62"><img id="img-id-d0c6f4fc-b718-461d-a3af-4de0c46a3b62" width="162" height="138"   src="assets/images/robbi.png"/></span>
+</span>
+
+</div>
+
+<aside class="notes">
+
+</aside>
+
+
+
+</section>
+<section id="slide_00016_frag_00001" data-state="slide_00016_frag_00001">
+
+
+<!-- Header -->
+  
+
+<!-- Background -->
+
+
+<!-- Slide -->
+<div class="jb-slide">
+<div class="jb-input jb-render jb-code" style="text-align:center">
+
+<!-- start embedded style -->
+
+<!-- end embedded style -->
+<div class="jb-input-code jb-render">
+<div class="highlight" style="background: #f8f8f8; color:#101010;display=inline-block;"><pre style="line-height: 125%;"><span></span>N_trials <span style="color: #666666">=</span> <span style="color: #666666">100</span>
+xs <span style="color: #666666">=</span> np<span style="color: #666666">.</span>linspace(<span style="color: #666666">0.0</span>, <span style="color: #666666">1.0</span>, <span style="color: #666666">20</span> )
+ys <span style="color: #666666">=</span> []
+
+<span style="color: #008000; font-weight: bold">for</span> p <span style="color: #AA22FF; font-weight: bold">in</span> xs:
+    mean <span style="color: #666666">=</span> <span style="color: #666666">0</span>
+    <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(N_trials):
+        m <span style="color: #666666">=</span> generate_message( p, <span style="color: #666666">1000</span> )
+        rle <span style="color: #666666">=</span> run_length_encoding( m )
+        eff <span style="color: #666666">=</span> <span style="color: #666666">2</span> <span style="color: #666666">*</span> <span style="color: #008000">len</span>(rle) <span style="color: #666666">/</span> <span style="color: #008000">len</span>(m)
+        mean <span style="color: #666666">=</span> mean <span style="color: #666666">+</span> eff<span style="color: #666666">/</span>N_trials
+    ys<span style="color: #666666">.</span>append( mean )
+</pre></div>
+
+</div><!-- end of jb-input-code jb-render -->
+
+</div>
+
+</div>
+<!-- Footer -->
+
+<div class="jb-footer-left plain">
+    <span id="id-39ba1f3f-3796-4853-9d2b-926312173113" ><span id="id-39ba1f3f-3796-4853-9d2b-926312173113"><img id="img-id-39ba1f3f-3796-4853-9d2b-926312173113"     src="assets/images/logo.png"/></span>
+</span>
+
+</div>
+<div class="jb-footer-right plain">
+    <span id="id-ee800ca2-fdc3-4bee-b9c2-aa633b0163d5" ><span id="id-ee800ca2-fdc3-4bee-b9c2-aa633b0163d5"><img id="img-id-ee800ca2-fdc3-4bee-b9c2-aa633b0163d5" width="162" height="138"   src="assets/images/robbi.png"/></span>
+</span>
+
+</div>
+
+<aside class="notes">
+
+</aside>
+
+
+
+</section>
+<section id="slide_00017_frag_00001" data-state="slide_00017_frag_00001">
+
+
+<!-- Header -->
+  
+
+<!-- Background -->
+
+
+<!-- Slide -->
+<div class="jb-slide">
+<div class="jb-input jb-render jb-code" style="text-align:center">
+
+<!-- start embedded style -->
+
+<!-- end embedded style -->
+<div class="jb-input-code jb-render">
+<div class="highlight" style="background: #f8f8f8; color:#101010;display=inline-block;"><pre style="line-height: 125%;"><span></span>N_trials <span style="color: #666666">=</span> <span style="color: #666666">100</span>
+xs <span style="color: #666666">=</span> np<span style="color: #666666">.</span>linspace(<span style="color: #666666">0.0</span>, <span style="color: #666666">1.0</span>, <span style="color: #666666">20</span> )
+<span style="color: #3D7B7B; font-style: italic">#mlen = np.linspace( 10, 1000, 5)</span>
+
+ys <span style="color: #666666">=</span> []
+
+<span style="color: #008000; font-weight: bold">for</span> p <span style="color: #AA22FF; font-weight: bold">in</span> xs:
+    mean <span style="color: #666666">=</span> <span style="color: #666666">0</span>
+    <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(N_trials):
+        m <span style="color: #666666">=</span> generate_message( p, <span style="color: #666666">1000</span> )
+        rle <span style="color: #666666">=</span> run_length_encoding( m )
+        eff <span style="color: #666666">=</span> <span style="color: #666666">2</span> <span style="color: #666666">*</span> <span style="color: #008000">len</span>(rle) <span style="color: #666666">/</span> <span style="color: #008000">len</span>(m)
+        mean <span style="color: #666666">=</span> mean <span style="color: #666666">+</span> eff<span style="color: #666666">/</span>N_trials
+    ys<span style="color: #666666">.</span>append( mean )
+</pre></div>
+
+</div><!-- end of jb-input-code jb-render -->
+
+</div>
+
+</div>
+<!-- Footer -->
+
+<div class="jb-footer-left plain">
+    <span id="id-991ab2fe-dc1b-4acf-ada3-f5cbe89834f1" ><span id="id-991ab2fe-dc1b-4acf-ada3-f5cbe89834f1"><img id="img-id-991ab2fe-dc1b-4acf-ada3-f5cbe89834f1"     src="assets/images/logo.png"/></span>
+</span>
+
+</div>
+<div class="jb-footer-right plain">
+    <span id="id-a51b1c53-5c83-43ee-ba55-c0bcded03c35" ><span id="id-a51b1c53-5c83-43ee-ba55-c0bcded03c35"><img id="img-id-a51b1c53-5c83-43ee-ba55-c0bcded03c35" width="162" height="138"   src="assets/images/robbi.png"/></span>
+</span>
+
+</div>
+
+<aside class="notes">
+
+</aside>
+
+
+
+</section>
+<section id="slide_00018_frag_00001" data-state="slide_00018_frag_00001">
+
+
+<!-- Header -->
+  
+
+<!-- Background -->
+
+
+<!-- Slide -->
+<div class="jb-slide">
+<div class="jb-input jb-render jb-code" style="text-align:center">
+
+<!-- start embedded style -->
+
+<!-- end embedded style -->
+<div class="jb-input-code jb-render">
+<div class="highlight" style="background: #f8f8f8; color:#101010;display=inline-block;"><pre style="line-height: 125%;"><span></span>N_trials <span style="color: #666666">=</span> <span style="color: #666666">1</span>
+xs <span style="color: #666666">=</span> np<span style="color: #666666">.</span>linspace(<span style="color: #666666">0.0</span>, <span style="color: #666666">1.0</span>, <span style="color: #666666">20</span> )
+<span style="color: #3D7B7B; font-style: italic">#mlen = np.linspace( 10, 1000, 5)</span>
+
+ys <span style="color: #666666">=</span> []
+
+<span style="color: #008000; font-weight: bold">for</span> p <span style="color: #AA22FF; font-weight: bold">in</span> xs:
+    mean <span style="color: #666666">=</span> <span style="color: #666666">0</span>
+    <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(N_trials):
+        m <span style="color: #666666">=</span> generate_message( p, <span style="color: #666666">1000</span> )
+        rle <span style="color: #666666">=</span> run_length_encoding( m )
+        eff <span style="color: #666666">=</span> <span style="color: #666666">2</span> <span style="color: #666666">*</span> <span style="color: #008000">len</span>(rle) <span style="color: #666666">/</span> <span style="color: #008000">len</span>(m)
+        mean <span style="color: #666666">=</span> mean <span style="color: #666666">+</span> eff<span style="color: #666666">/</span>N_trials
+    ys<span style="color: #666666">.</span>append( mean )
+</pre></div>
+
+</div><!-- end of jb-input-code jb-render -->
+
+</div>
+
+</div>
+<!-- Footer -->
+
+<div class="jb-footer-left plain">
+    <span id="id-e16c33a2-5d1a-4459-b661-0bf4b9ee4496" ><span id="id-e16c33a2-5d1a-4459-b661-0bf4b9ee4496"><img id="img-id-e16c33a2-5d1a-4459-b661-0bf4b9ee4496"     src="assets/images/logo.png"/></span>
+</span>
+
+</div>
+<div class="jb-footer-right plain">
+    <span id="id-ec122def-3fd9-4c3d-878b-b24059c37b1c" ><span id="id-ec122def-3fd9-4c3d-878b-b24059c37b1c"><img id="img-id-ec122def-3fd9-4c3d-878b-b24059c37b1c" width="162" height="138"   src="assets/images/robbi.png"/></span>
+</span>
+
+</div>
+
+<aside class="notes">
+
+</aside>
+
+
+
+</section>
+<section id="slide_00019_frag_00001" data-state="slide_00019_frag_00001">
+
+
+<!-- Header -->
+  
+
+<!-- Background -->
+
+
+<!-- Slide -->
+<div class="jb-slide">
+<div class="jb-input jb-render jb-code" style="text-align:center">
+
+<!-- start embedded style -->
+
+<!-- end embedded style -->
+<div class="jb-input-code jb-render">
+<div class="highlight" style="background: #f8f8f8; color:#101010;display=inline-block;"><pre style="line-height: 125%;"><span></span>N_trials <span style="color: #666666">=</span> <span style="color: #666666">100</span>
+xs <span style="color: #666666">=</span> np<span style="color: #666666">.</span>linspace(<span style="color: #666666">0.0</span>, <span style="color: #666666">1.0</span>, <span style="color: #666666">20</span> )
+<span style="color: #3D7B7B; font-style: italic">#mlen = np.linspace( 10, 1000, 5)</span>
+
+ys <span style="color: #666666">=</span> []
+
+<span style="color: #008000; font-weight: bold">for</span> p <span style="color: #AA22FF; font-weight: bold">in</span> xs:
+    mean <span style="color: #666666">=</span> <span style="color: #666666">0</span>
+    <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(N_trials):
+        m <span style="color: #666666">=</span> generate_message( p, <span style="color: #666666">1000</span> )
+        rle <span style="color: #666666">=</span> run_length_encoding( m )
+        eff <span style="color: #666666">=</span> <span style="color: #666666">2</span> <span style="color: #666666">*</span> <span style="color: #008000">len</span>(rle) <span style="color: #666666">/</span> <span style="color: #008000">len</span>(m)
+        mean <span style="color: #666666">=</span> mean <span style="color: #666666">+</span> eff<span style="color: #666666">/</span>N_trials
+    ys<span style="color: #666666">.</span>append( mean )
+</pre></div>
+
+</div><!-- end of jb-input-code jb-render -->
+
+</div>
+
+</div>
+<!-- Footer -->
+
+<div class="jb-footer-left plain">
+    <span id="id-898bd476-d871-4e4a-9bc7-733130129b19" ><span id="id-898bd476-d871-4e4a-9bc7-733130129b19"><img id="img-id-898bd476-d871-4e4a-9bc7-733130129b19"     src="assets/images/logo.png"/></span>
+</span>
+
+</div>
+<div class="jb-footer-right plain">
+    <span id="id-5a339108-57c9-46dc-b3db-84f576789a99" ><span id="id-5a339108-57c9-46dc-b3db-84f576789a99"><img id="img-id-5a339108-57c9-46dc-b3db-84f576789a99" width="162" height="138"   src="assets/images/robbi.png"/></span>
+</span>
+
+</div>
+
+<aside class="notes">
+
+</aside>
+
+
+
+</section>
+<section id="slide_00020_frag_00001" data-state="slide_00020_frag_00001">
+
+
+<!-- Header -->
+  
+
+<!-- Background -->
+
+
+<!-- Slide -->
+<div class="jb-slide">
+<div class="jb-input jb-render jb-code" style="text-align:center">
+
+<!-- start embedded style -->
+
+<!-- end embedded style -->
+<div class="jb-input-code jb-render">
+<div class="highlight" style="background: #f8f8f8; color:#101010;display=inline-block;"><pre style="line-height: 125%;"><span></span>N_trials <span style="color: #666666">=</span> <span style="color: #666666">100</span>
+xs <span style="color: #666666">=</span> np<span style="color: #666666">.</span>linspace(<span style="color: #666666">0.0</span>, <span style="color: #666666">1.0</span>, <span style="color: #666666">20</span> )
+mlens <span style="color: #666666">=</span> np<span style="color: #666666">.</span>linspace( <span style="color: #666666">1</span>, <span style="color: #666666">4</span>, <span style="color: #666666">5</span>)
+
+yss <span style="color: #666666">=</span> []
+<span style="color: #008000; font-weight: bold">for</span> log_mlen <span style="color: #AA22FF; font-weight: bold">in</span> mlens:
+  mlen <span style="color: #666666">=</span> <span style="color: #666666">10</span> <span style="color: #666666">**</span> log_mlen
+  ys <span style="color: #666666">=</span> []
+
+  <span style="color: #008000; font-weight: bold">for</span> p <span style="color: #AA22FF; font-weight: bold">in</span> xs:
+      mean <span style="color: #666666">=</span> <span style="color: #666666">0</span>
+      <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(N_trials):
+          m <span style="color: #666666">=</span> generate_message( p, mlen )
+          rle <span style="color: #666666">=</span> run_length_encoding( m )
+          eff <span style="color: #666666">=</span> <span style="color: #666666">2</span> <span style="color: #666666">*</span> <span style="color: #008000">len</span>(rle) <span style="color: #666666">/</span> <span style="color: #008000">len</span>(m)
+          mean <span style="color: #666666">=</span> mean <span style="color: #666666">+</span> eff<span style="color: #666666">/</span>N_trials
+      ys<span style="color: #666666">.</span>append( mean )
+  yss<span style="color: #666666">.</span>apppend( ys )
+  
+</pre></div>
+
+</div><!-- end of jb-input-code jb-render -->
+
+</div>
+
+</div>
+<!-- Footer -->
+
+<div class="jb-footer-left plain">
+    <span id="id-050752c9-f5f0-41cd-aab7-d7a1ed11f35a" ><span id="id-050752c9-f5f0-41cd-aab7-d7a1ed11f35a"><img id="img-id-050752c9-f5f0-41cd-aab7-d7a1ed11f35a"     src="assets/images/logo.png"/></span>
+</span>
+
+</div>
+<div class="jb-footer-right plain">
+    <span id="id-40976dd2-ebfa-4b48-a9e7-25dbbbd83e0f" ><span id="id-40976dd2-ebfa-4b48-a9e7-25dbbbd83e0f"><img id="img-id-40976dd2-ebfa-4b48-a9e7-25dbbbd83e0f" width="162" height="138"   src="assets/images/robbi.png"/></span>
+</span>
+
+</div>
+
+<aside class="notes">
+
+</aside>
+
+
+
+</section>
+<section id="slide_00021_frag_00001" data-state="slide_00021_frag_00001">
+
+
+<!-- Header -->
+  
+
+<!-- Background -->
+
+
+<!-- Slide -->
+<div class="jb-slide">
+<div class="jb-input jb-render jb-code" style="text-align:center">
+
+<!-- start embedded style -->
+
+<!-- end embedded style -->
+<div class="jb-input-code jb-render">
+<div class="highlight" style="background: #f8f8f8; color:#101010;display=inline-block;"><pre style="line-height: 125%;"><span></span>N_trials <span style="color: #666666">=</span> <span style="color: #666666">100</span>
+xs <span style="color: #666666">=</span> np<span style="color: #666666">.</span>linspace(<span style="color: #666666">0.0</span>, <span style="color: #666666">1.0</span>, <span style="color: #666666">20</span> )
+mlens <span style="color: #666666">=</span> np<span style="color: #666666">.</span>linspace( <span style="color: #666666">1</span>, <span style="color: #666666">4</span>, <span style="color: #666666">5</span>)
+
+yss <span style="color: #666666">=</span> []
+<span style="color: #008000; font-weight: bold">for</span> log_mlen <span style="color: #AA22FF; font-weight: bold">in</span> mlens:
+  mlen <span style="color: #666666">=</span> <span style="color: #008000">int</span>( <span style="color: #666666">10</span> <span style="color: #666666">**</span> log_mlen )
+  ys <span style="color: #666666">=</span> []
+
+  <span style="color: #008000; font-weight: bold">for</span> p <span style="color: #AA22FF; font-weight: bold">in</span> xs:
+      mean <span style="color: #666666">=</span> <span style="color: #666666">0</span>
+      <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(N_trials):
+          m <span style="color: #666666">=</span> generate_message( p, mlen )
+          rle <span style="color: #666666">=</span> run_length_encoding( m )
+          eff <span style="color: #666666">=</span> <span style="color: #666666">2</span> <span style="color: #666666">*</span> <span style="color: #008000">len</span>(rle) <span style="color: #666666">/</span> <span style="color: #008000">len</span>(m)
+          mean <span style="color: #666666">=</span> mean <span style="color: #666666">+</span> eff<span style="color: #666666">/</span>N_trials
+      ys<span style="color: #666666">.</span>append( mean )
+  yss<span style="color: #666666">.</span>apppend( ys )
+  
+</pre></div>
+
+</div><!-- end of jb-input-code jb-render -->
+
+</div>
+
+</div>
+<!-- Footer -->
+
+<div class="jb-footer-left plain">
+    <span id="id-745926bc-0bdd-4335-ae38-8aa57210271a" ><span id="id-745926bc-0bdd-4335-ae38-8aa57210271a"><img id="img-id-745926bc-0bdd-4335-ae38-8aa57210271a"     src="assets/images/logo.png"/></span>
+</span>
+
+</div>
+<div class="jb-footer-right plain">
+    <span id="id-122ac800-2fe3-4102-ae9c-82f67fea8a16" ><span id="id-122ac800-2fe3-4102-ae9c-82f67fea8a16"><img id="img-id-122ac800-2fe3-4102-ae9c-82f67fea8a16" width="162" height="138"   src="assets/images/robbi.png"/></span>
+</span>
+
+</div>
+
+<aside class="notes">
+
+</aside>
+
+
+
+</section>
+<section id="slide_00022_frag_00001" data-state="slide_00022_frag_00001">
+
+
+<!-- Header -->
+  
+
+<!-- Background -->
+
+
+<!-- Slide -->
+<div class="jb-slide">
+<div class="jb-input jb-render jb-code" style="text-align:center">
+
+<!-- start embedded style -->
+
+<!-- end embedded style -->
+<div class="jb-input-code jb-render">
+<div class="highlight" style="background: #f8f8f8; color:#101010;display=inline-block;"><pre style="line-height: 125%;"><span></span>N_trials <span style="color: #666666">=</span> <span style="color: #666666">100</span>
+xs <span style="color: #666666">=</span> np<span style="color: #666666">.</span>linspace(<span style="color: #666666">0.0</span>, <span style="color: #666666">1.0</span>, <span style="color: #666666">20</span> )
+mlens <span style="color: #666666">=</span> np<span style="color: #666666">.</span>linspace( <span style="color: #666666">1</span>, <span style="color: #666666">4</span>, <span style="color: #666666">5</span>)
+
+yss <span style="color: #666666">=</span> []
+<span style="color: #008000; font-weight: bold">for</span> log_mlen <span style="color: #AA22FF; font-weight: bold">in</span> mlens:
+  mlen <span style="color: #666666">=</span> <span style="color: #008000">int</span>( <span style="color: #666666">10</span> <span style="color: #666666">**</span> log_mlen )
+  ys <span style="color: #666666">=</span> []
+
+  <span style="color: #008000; font-weight: bold">for</span> p <span style="color: #AA22FF; font-weight: bold">in</span> xs:
+      mean <span style="color: #666666">=</span> <span style="color: #666666">0</span>
+      <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(N_trials):
+          m <span style="color: #666666">=</span> generate_message( p, mlen )
+          rle <span style="color: #666666">=</span> run_length_encoding( m )
+          eff <span style="color: #666666">=</span> <span style="color: #666666">2</span> <span style="color: #666666">*</span> <span style="color: #008000">len</span>(rle) <span style="color: #666666">/</span> <span style="color: #008000">len</span>(m)
+          mean <span style="color: #666666">=</span> mean <span style="color: #666666">+</span> eff<span style="color: #666666">/</span>N_trials
+      ys<span style="color: #666666">.</span>append( mean )
+  yss<span style="color: #666666">.</span>append( ys )
+  
+</pre></div>
+
+</div><!-- end of jb-input-code jb-render -->
+
+</div>
+
+</div>
+<!-- Footer -->
+
+<div class="jb-footer-left plain">
+    <span id="id-d441489c-aba8-401f-bc09-379eab906861" ><span id="id-d441489c-aba8-401f-bc09-379eab906861"><img id="img-id-d441489c-aba8-401f-bc09-379eab906861"     src="assets/images/logo.png"/></span>
+</span>
+
+</div>
+<div class="jb-footer-right plain">
+    <span id="id-1fed8535-925b-402e-b1a9-075e95f3acd0" ><span id="id-1fed8535-925b-402e-b1a9-075e95f3acd0"><img id="img-id-1fed8535-925b-402e-b1a9-075e95f3acd0" width="162" height="138"   src="assets/images/robbi.png"/></span>
+</span>
+
+</div>
+
+<aside class="notes">
+
+</aside>
+
+
+
+</section>
+<section id="slide_00023_frag_00001" data-state="slide_00023_frag_00001">
+
+
+<!-- Header -->
+  
+
+<!-- Background -->
+
+
+<!-- Slide -->
+<div class="jb-slide">
+<div class="jb-input jb-render jb-code" style="text-align:center">
+
+<!-- start embedded style -->
+
+<!-- end embedded style -->
+<div class="jb-input-code jb-render">
+<div class="highlight" style="background: #f8f8f8; color:#101010;display=inline-block;"><pre style="line-height: 125%;"><span></span>N_trials <span style="color: #666666">=</span> <span style="color: #666666">100</span>
+xs <span style="color: #666666">=</span> np<span style="color: #666666">.</span>linspace(<span style="color: #666666">0.0</span>, <span style="color: #666666">1.0</span>, <span style="color: #666666">20</span> )
+mlens <span style="color: #666666">=</span> np<span style="color: #666666">.</span>linspace( <span style="color: #666666">1</span>, <span style="color: #666666">4</span>, <span style="color: #666666">4</span>)
+
+yss <span style="color: #666666">=</span> []
+<span style="color: #008000; font-weight: bold">for</span> log_mlen <span style="color: #AA22FF; font-weight: bold">in</span> mlens:
+  mlen <span style="color: #666666">=</span> <span style="color: #008000">int</span>( <span style="color: #666666">10</span> <span style="color: #666666">**</span> log_mlen )
+  ys <span style="color: #666666">=</span> []
+
+  <span style="color: #008000; font-weight: bold">for</span> p <span style="color: #AA22FF; font-weight: bold">in</span> xs:
+      mean <span style="color: #666666">=</span> <span style="color: #666666">0</span>
+      <span style="color: #008000; font-weight: bold">for</span> i <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">range</span>(N_trials):
+          m <span style="color: #666666">=</span> generate_message( p, mlen )
+          rle <span style="color: #666666">=</span> run_length_encoding( m )
+          eff <span style="color: #666666">=</span> <span style="color: #666666">2</span> <span style="color: #666666">*</span> <span style="color: #008000">len</span>(rle) <span style="color: #666666">/</span> <span style="color: #008000">len</span>(m)
+          mean <span style="color: #666666">=</span> mean <span style="color: #666666">+</span> eff<span style="color: #666666">/</span>N_trials
+      ys<span style="color: #666666">.</span>append( mean )
+  yss<span style="color: #666666">.</span>append( ys )
+  
+</pre></div>
+
+</div><!-- end of jb-input-code jb-render -->
+
+</div>
+
+</div>
+<!-- Footer -->
+
+<div class="jb-footer-left plain">
+    <span id="id-d6546fb0-83dc-44de-905b-81dc3ff60e9d" ><span id="id-d6546fb0-83dc-44de-905b-81dc3ff60e9d"><img id="img-id-d6546fb0-83dc-44de-905b-81dc3ff60e9d"     src="assets/images/logo.png"/></span>
+</span>
+
+</div>
+<div class="jb-footer-right plain">
+    <span id="id-1fc2f39a-b6b0-4e6d-83ae-69b2e549e59a" ><span id="id-1fc2f39a-b6b0-4e6d-83ae-69b2e549e59a"><img id="img-id-1fc2f39a-b6b0-4e6d-83ae-69b2e549e59a" width="162" height="138"   src="assets/images/robbi.png"/></span>
+</span>
+
+</div>
+
+<aside class="notes">
+
+</aside>
+
+
+
+</section>
+<section id="slide_00024_frag_00001" data-state="slide_00024_frag_00001">
+
+
+<!-- Header -->
+  
+
+<!-- Background -->
+
+
+<!-- Slide -->
+<div class="jb-slide">
+<div class="jb-input jb-render jb-code" style="text-align:center">
+
+<!-- start embedded style -->
+
+<!-- end embedded style -->
+<div class="jb-input-code jb-render">
+<div class="highlight" style="background: #f8f8f8; color:#101010;display=inline-block;"><pre style="line-height: 125%;"><span></span>yss <span style="color: #666666">=</span> np<span style="color: #666666">.</span>array( yss )
+
+fig <span style="color: #666666">=</span> plt<span style="color: #666666">.</span>figure()
+ax1 <span style="color: #666666">=</span> fig<span style="color: #666666">.</span>add_subplot(<span style="color: #666666">1</span>,<span style="color: #666666">1</span>,<span style="color: #666666">1</span>)
+ax1<span style="color: #666666">.</span>set_title(<span style="color: #BA2121">&quot;p vs RLE Efficiency&quot;</span>)
+ax1<span style="color: #666666">.</span>set_xlabel(<span style="color: #BA2121">&quot;Prob. p&quot;</span>)
+ax1<span style="color: #666666">.</span>set_ylabel(<span style="color: #BA2121">&quot;Compression ratio of RLE&quot;</span>)
+
+<span style="color: #008000; font-weight: bold">for</span> i,log_ml <span style="color: #AA22FF; font-weight: bold">in</span> <span style="color: #008000">enumerate</span>( mlens ):
+  mlen <span style="color: #666666">=</span> <span style="color: #008000">int</span>( <span style="color: #666666">10</span> <span style="color: #666666">**</span> log_ml )
+  ax1<span style="color: #666666">.</span>plot(xs, yss[i,:], <span style="color: #BA2121">&#39;-&#39;</span>, linewidth<span style="color: #666666">=2</span>, label<span style="color: #666666">=</span><span style="color: #BA2121">f&quot;Msg. Len </span><span style="color: #A45A77; font-weight: bold">{</span>mlen<span style="color: #A45A77; font-weight: bold">}</span><span style="color: #BA2121">&quot;</span>)
+ax1<span style="color: #666666">.</span>legend()
+
+f1 <span style="color: #666666">=</span> addJBFigure(<span style="color: #BA2121">&quot;f1&quot;</span>, <span style="color: #666666">0</span>, <span style="color: #666666">0</span>, fig )
+plt<span style="color: #666666">.</span>close()
+</pre></div>
+
+</div><!-- end of jb-input-code jb-render -->
+
+</div>
+
+</div>
+<!-- Footer -->
+
+<div class="jb-footer-left plain">
+    <span id="id-fd097d60-3b67-4e4b-b314-f93bd553ede7" ><span id="id-fd097d60-3b67-4e4b-b314-f93bd553ede7"><img id="img-id-fd097d60-3b67-4e4b-b314-f93bd553ede7"     src="assets/images/logo.png"/></span>
+</span>
+
+</div>
+<div class="jb-footer-right plain">
+    <span id="id-20d25648-32bc-4fa6-8b2f-792a44d01c07" ><span id="id-20d25648-32bc-4fa6-8b2f-792a44d01c07"><img id="img-id-20d25648-32bc-4fa6-8b2f-792a44d01c07" width="162" height="138"   src="assets/images/robbi.png"/></span>
+</span>
+
+</div>
+
+<aside class="notes">
+
+</aside>
+
+
+
+</section>
+<section id="slide_00025_frag_00001" data-state="slide_00025_frag_00001">
+
+
+<!-- Header -->
+  
+
+<!-- Background -->
+
+
+<!-- Slide -->
+<div class="jb-slide">
+
+<div class="jb-output-code jb-render">
+
+<!-- start embedded style -->
+
+<!-- end embedded style -->
+<div class="jb-output jb-render">
+
+<span id="id-e556960a-4a0d-49a4-b51d-77486adcbe5a" ><span id="id-e556960a-4a0d-49a4-b51d-77486adcbe5a"><img id="img-id-e556960a-4a0d-49a4-b51d-77486adcbe5a"     src="assets/images/f1.svg"/></span>
+</span>
+
+</div><!-- end of jb-output jb-render -->
+</div><!-- end of jb-output-code jb-render -->
+
+
+</div>
+<!-- Footer -->
+
+<div class="jb-footer-left plain">
+    <span id="id-812b5fb5-7431-46fb-bb6f-ce0289fb0c0a" ><span id="id-812b5fb5-7431-46fb-bb6f-ce0289fb0c0a"><img id="img-id-812b5fb5-7431-46fb-bb6f-ce0289fb0c0a"     src="assets/images/logo.png"/></span>
+</span>
+
+</div>
+<div class="jb-footer-right plain">
+    <span id="id-a11a53c7-736b-4b32-b7a7-db7c029efdcd" ><span id="id-a11a53c7-736b-4b32-b7a7-db7c029efdcd"><img id="img-id-a11a53c7-736b-4b32-b7a7-db7c029efdcd" width="162" height="138"   src="assets/images/robbi.png"/></span>
+</span>
+
+</div>
+
+<aside class="notes">
+
+</aside>
+
+
+
+</section>
+        </div>
+        </div>
+
+        <script src="js/reveal.js"></script>
+
+        <script>
+            // More info about config & dependencies:
+            // - https://github.com/hakimel/reveal.js#configuration
+            // - https://github.com/hakimel/reveal.js#dependencies
+            Reveal.initialize({
+                math: {
+                    mathjax: 'https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js',
+                    config: 'TeX-AMS_HTML-full',  // See http://docs.mathjax.org/en/latest/config-files.html
+                    // tex2jax: {
+                    //     inlineMath: [['$', '$'], ['\(', '\)']],
+                    //     displayMath: [['$$', '$$'], ['\[', '\]']],
+                    //     processEscapes: true,
+                    //     processEnvironments: true,
+                    //     skipTags: ['script', 'noscript', 'style', 'textarea', 'code', 'pre'],
+                    //     displayAlign: 'center',
+                    // }                
+                },
+                dependencies: [
+                    { src: 'plugin/markdown/marked.js' },
+                    { src: 'plugin/markdown/markdown.js' },
+                    { src: 'plugin/notes/notes.js', async: true },
+                    { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+                    { src: 'plugin/math/math.js', async: true }
+                ]
+            });
+        </script>
+
+        <script>
+            <!-- Assets -->
+var assets = {
+"robbi" : new JBImage( "robbi", "12677", "162", "138", null, null, "assets/images/robbi", "png" ),
+"logo" : new JBImage( "logo", "12033", "0", "0", null, null, "assets/images/logo", "png" ),
+"fira-logo-1" : new JBImage( "fira-logo-1", "93836", "0", "0", null, null, "assets/images/FIRA-logo-1", "png" ),
+"pairLogo" : new JBImage( "pairLogo", "63051", "0", "0", null, null, "assets/images/pairLogo", "png" ),
+"f1" : new JBImage( "f1", "33524", "0", "0", null, null, "assets/images/f1", "svg" ) 
+};
+var assetInstances = {
+    "id-c566786a-3d4a-4110-a1ef-f50a236ab126": assets["robbi"],
+    "id-bbc06b95-6288-489f-8b06-50b21df02813": assets["robbi"],
+    "id-1e4cf3a2-6ae0-44e9-83e5-333c8f5a72c4": assets["robbi"],
+    "id-72802477-eb60-45e3-8983-a8b1e7fd9327": assets["robbi"],
+    "id-63233e9b-82e9-4b6c-ad28-e7cfa62410ab": assets["robbi"],
+    "id-97f7140e-ba34-40aa-9835-91ff43363d79": assets["robbi"],
+    "id-6a9d81ab-19b7-4a0f-a849-e6e8b05da6a0": assets["robbi"],
+    "id-e90f7f76-ff39-4e86-815d-f8f149595719": assets["robbi"],
+    "id-493ecf3e-35eb-498f-95e2-35a7a11ce7e1": assets["robbi"],
+    "id-e963eee9-c9b8-4850-bf96-cb3647903495": assets["robbi"],
+    "id-b71d73b4-869c-4546-9d90-d617c4254ac7": assets["robbi"],
+    "id-2dd5e52a-837a-49a6-bcb2-2f6f9f18ac17": assets["robbi"],
+    "id-35100dc0-9046-4371-a5fe-092078adb4ae": assets["robbi"],
+    "id-d0c6f4fc-b718-461d-a3af-4de0c46a3b62": assets["robbi"],
+    "id-ee800ca2-fdc3-4bee-b9c2-aa633b0163d5": assets["robbi"],
+    "id-a51b1c53-5c83-43ee-ba55-c0bcded03c35": assets["robbi"],
+    "id-ec122def-3fd9-4c3d-878b-b24059c37b1c": assets["robbi"],
+    "id-5a339108-57c9-46dc-b3db-84f576789a99": assets["robbi"],
+    "id-40976dd2-ebfa-4b48-a9e7-25dbbbd83e0f": assets["robbi"],
+    "id-122ac800-2fe3-4102-ae9c-82f67fea8a16": assets["robbi"],
+    "id-1fed8535-925b-402e-b1a9-075e95f3acd0": assets["robbi"],
+    "id-1fc2f39a-b6b0-4e6d-83ae-69b2e549e59a": assets["robbi"],
+    "id-20d25648-32bc-4fa6-8b2f-792a44d01c07": assets["robbi"],
+    "id-a11a53c7-736b-4b32-b7a7-db7c029efdcd": assets["robbi"],
+    "id-05f1ffc3-2c98-4e6a-be6e-011aa4c32942": assets["logo"],
+    "id-3763e5e6-76d1-41f2-91a7-703a3cc4f6b9": assets["logo"],
+    "id-3692b7e2-05f6-4e68-bd57-15419919f78e": assets["logo"],
+    "id-07d56860-6b8e-4db3-bfc9-fc8cb3d34eec": assets["logo"],
+    "id-3867da99-c512-4844-a10d-5acef205453a": assets["logo"],
+    "id-0ceffad8-0d5c-47bf-9d54-5e39442c9081": assets["logo"],
+    "id-a7edc655-5524-416f-a9fb-deacce789a24": assets["logo"],
+    "id-d815b23e-fdbe-4a03-b59f-3b9344731bad": assets["logo"],
+    "id-cc0c6ff1-1239-48da-9378-16176ea5291b": assets["logo"],
+    "id-65631419-90d9-4025-97df-ade42b9ff919": assets["logo"],
+    "id-50e28f96-11c5-4a3a-84b4-8c6790b9b355": assets["logo"],
+    "id-8307ca14-49bd-4ab2-ba2d-d983053728d2": assets["logo"],
+    "id-ce1c3fdd-6fdf-4cb8-8a01-95349f044670": assets["logo"],
+    "id-f7da9322-0dce-4032-9f5a-ff51d515b574": assets["logo"],
+    "id-39ba1f3f-3796-4853-9d2b-926312173113": assets["logo"],
+    "id-991ab2fe-dc1b-4acf-ada3-f5cbe89834f1": assets["logo"],
+    "id-e16c33a2-5d1a-4459-b661-0bf4b9ee4496": assets["logo"],
+    "id-898bd476-d871-4e4a-9bc7-733130129b19": assets["logo"],
+    "id-050752c9-f5f0-41cd-aab7-d7a1ed11f35a": assets["logo"],
+    "id-745926bc-0bdd-4335-ae38-8aa57210271a": assets["logo"],
+    "id-d441489c-aba8-401f-bc09-379eab906861": assets["logo"],
+    "id-d6546fb0-83dc-44de-905b-81dc3ff60e9d": assets["logo"],
+    "id-fd097d60-3b67-4e4b-b314-f93bd553ede7": assets["logo"],
+    "id-812b5fb5-7431-46fb-bb6f-ce0289fb0c0a": assets["logo"],
+    "id-e556960a-4a0d-49a4-b51d-77486adcbe5a": assets["f1"]
+};
+<!-- End of Assets -->
+
+            convertURLs(assetInstances, "smart-path");
+        </script>
+        <script>
+            <!-- Characters -->
+var characters =
+{};
+<!-- End of Characters -->
+
+        </script>
+    </body>
+</html>
